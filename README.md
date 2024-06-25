@@ -21,6 +21,8 @@ Specifically designed to serve the design team, technical consultants, and Tence
 - [Prerequisites](#prerequisites)
 - [Project Context and Data Source](#project-context-and-data-source)
 
+[Back to top](#tencent-headquarters-bim-data-pipeline-using-revit-apache-airflow-and-aws-services)
+
 ## Overview
 The pipeline is designed to:
 1. **Data ETL**: Employ Apache Airflow to orchestrate ETL processes.
@@ -33,11 +35,15 @@ The pipeline is designed to:
    - Perform interactive queries on the cataloged data using Amazon Athena, saving query results in a specified S3 bucket.
    - Load the cataloged data into Amazon Redshift for advanced analytics and reporting.
 
+[Back to top](#tencent-headquarters-bim-data-pipeline-using-revit-apache-airflow-and-aws-services)
+
 ## Benefits
 - **Enhanced Design Decision-Making**: Real-time data updates for design iterations.
 - **Improved Construction Modifications**: Accurate and timely data for detail adjustments.
 - **Cost Estimation**: Reliable data for precise cost analysis.
 - **Regulatory Compliance**: Ensuring adherence to energy consumption, window-to-wall ratio, and fire protection requirements.
+
+[Back to top](#tencent-headquarters-bim-data-pipeline-using-revit-apache-airflow-and-aws-services)
 
 ## Architecture
 ![revit_pipeline_architecture.png](assets/revit_pipeline_architecture.png)
@@ -49,12 +55,16 @@ The pipeline is designed to:
 6. **Amazon Athena**: Interactive queries of SQL-based data.
 7. **Amazon Redshift**: Data warehousing and analytics.
 
+[Back to top](#tencent-headquarters-bim-data-pipeline-using-revit-apache-airflow-and-aws-services)
+
 ## Prerequisites
 - Revit model managed in BIM 360.
 - APS credentials.
 - AWS account with appropriate permissions for S3, Glue, Athena, and Redshift.
 - Docker installation.
 - Python 3.9 or higher.
+
+[Back to top](#tencent-headquarters-bim-data-pipeline-using-revit-apache-airflow-and-aws-services)
 
 ## Project Context and Data Source
 To provide context for the data pipeline, here are some architectural renderings, facade diagrams, and construction details from the Tencent Global Headquarters project. These visuals highlight the unitized curtain wall system, a key focus of the BIM data used in this pipeline.
