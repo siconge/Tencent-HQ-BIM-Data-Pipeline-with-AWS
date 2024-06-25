@@ -1,3 +1,8 @@
+<div style="position: fixed; bottom: 0; left: 0; width: 100%; background-color: #ffffff; border-top: 1px solid #cccccc; padding: 10px; text-align: center; z-index: 1000;">
+    <a href="https://siconge.github.io/">Back to Portfolio</a>
+    <!-- style="color: #333333; font-family: Arial, sans-serif; text-decoration: none;" -->
+</div>
+
 # Tencent Headquarters BIM Data Pipeline Using Revit, Apache Airflow, and AWS Services
 
 This project delivers a robust data pipeline solution designed to efficiently handle BIM (Building Information Modeling) data from the Revit model of Tencent's Global Headquarters in Shenzhen. As the Lead Project Architect and BIM Data Engineer, I oversaw the design and construction phases, ensuring seamless integration and data management.
@@ -62,3 +67,5 @@ To provide context for the data pipeline, here are some architectural renderings
 
 #### Construction Details of Unitized Curtain Wall System
 ![tencent_headquarters_unitized_curtain_wall_details](assets/tencent_headquarters_unitized_curtain_wall_details.png)
+
+&#160;
