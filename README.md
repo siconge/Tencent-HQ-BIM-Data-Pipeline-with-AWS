@@ -6,6 +6,8 @@ This data pipeline employs a comprehensive ETL (Extract, Transform, Load) proces
 
 Specifically designed to serve the design team, technical consultants, and Tencent clients, this pipeline supports informed decision-making, construction detail modifications, cost estimation, and compliance with local regulations such as energy consumption, window-to-wall ratio, and fire protection standards. The focus on the unitized curtain wall system demonstrates how data-driven processes assist in fine-tuning design and construction details to meet various code requirements while maintaining the overall design intent. This approach ensures precise tracking and management of architectural elements, enhancing overall project outcomes.
 
+[Go to repository](https://github.com/siconge/Tencent-HQ-BIM-Data-Pipeline-with-AWS)
+
 <h2>Table of Contents</h2>
 
 - [Overview](#overview)
