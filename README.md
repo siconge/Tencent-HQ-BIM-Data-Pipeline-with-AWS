@@ -5,7 +5,7 @@
 
 # Tencent Headquarters BIM Data Pipeline Using Revit, Apache Airflow, and AWS Services
 
-This project delivers a robust data pipeline solution designed to efficiently handle BIM (Building Information Modeling) data from the Revit model of Tencent's Global Headquarters in Shenzhen. As the Lead Project Architect and BIM Data Engineer, I oversaw the design and construction phases, ensuring seamless integration and data management.
+This project delivers a robust data pipeline solution designed to efficiently handle BIM (Building Information Modeling) data from the Revit model of Tencent Global Headquarters in Shenzhen. As the Lead Project Architect and BIM Data Engineer, I oversaw the design and construction phases, ensuring seamless integration and data management.
 
 This data pipeline employs a comprehensive ETL (Extract, Transform, Load) process to move BIM data from Autodesk Revit into cloud storage for processing and analytics. The pipeline leverages tools and services such as Apache Airflow, Amazon S3, AWS Glue, Amazon Athena, and Amazon Redshift.
 
