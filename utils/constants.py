@@ -13,8 +13,9 @@ REVIT_MODEL_GUID = parser.get('revit', 'revit_model_guid')
 APS_API_BASE_URL = parser.get('revit', 'aps_api_base_url')
 
 AWS_ACCESS_KEY_SECRET_NAME = parser.get('aws', 'aws_access_key_secret_name')
+AWS_REGION_NAME = parser.get('aws', 'aws_region_name')
 AWS_BUCKET_NAME = parser.get('aws', 'aws_bucket_name')
-AWS_REGION = parser.get('aws', 'aws_region')
+AWS_FOLDER_NAME = parser.get('aws', 'aws_folder_name')
 
 INPUT_PATH = parser.get('file_paths', 'input_path')
 OUTPUT_PATH = parser.get('file_paths', 'output_path')
