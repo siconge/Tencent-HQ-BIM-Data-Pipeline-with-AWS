@@ -57,6 +57,7 @@ x-airflow-common:
     AIRFLOW__API__AUTH_BACKEND: 'airflow.api.auth.backend.basic_auth'
     _PIP_ADDITIONAL_REQUIREMENTS: ${_PIP_ADDITIONAL_REQUIREMENTS:-}
   volumes:
+    - ./aws_glue_job_script:/opt/airflow/aws_glue_job_script
     - ./config:/opt/airflow/config
     - ./dags:/opt/airflow/dags
     - ./data:/opt/airflow/data
