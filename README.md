@@ -5,64 +5,159 @@
 
 # Tencent Headquarters BIM Data Pipeline Using Revit, Apache Airflow, and AWS Services
 
-This project delivers an end-to-end data pipeline solution designed to efficiently handle BIM (Building Information Modeling) data from the Revit model of Tencent Global Headquarters in Shenzhen. As the Lead Project Architect and BIM Data Engineer, I oversaw the design and construction phases, ensuring seamless integration and data management.
+This project delivers an end-to-end data pipeline solution designed to process BIM (Building Information Modeling) data from the Revit model of Tencent Global Headquarters in Shenzhen. Developed during the design and construction phases, the pipeline efficiently handles unitized curtain wall metadata to support data-driven decision-making.
 
-This data pipeline employs a comprehensive ETL (Extract, Transform, Load) process to move BIM data from Autodesk Revit into cloud storage for processing and analytics. The pipeline leverages tools and services such as Apache Airflow, Amazon S3, AWS Glue, and Amazon Redshift.
+Integrating upstream metadata extraction from Autodesk BIM 360 and downstream cloud-based transformations and analytics using AWS services, the pipeline leverages Apache Airflow, AWS CloudFormation, Amazon S3, AWS Glue, and Amazon Redshift. It enables automated, scalable workflows for data extraction, transformation, and storage.
 
-Specifically designed to serve the design team, technical consultants, and Tencent clients, this pipeline supports informed decision-making, construction detail modifications, cost estimation, and compliance with local regulations such as energy consumption, window-to-wall ratio, and fire protection standards. The focus on the unitized curtain wall system demonstrates how data-driven processes assist in fine-tuning design and construction details to meet various code requirements while maintaining the overall design intent. This approach ensures precise tracking and management of architectural elements, enhancing overall project outcomes.
+Tailored for design teams, technical consultants, and Tencent clients, the solution supports precise construction detail modifications, cost estimation, and regulatory compliance with standards for energy consumption and fire protection. Its modular and iterative BIM data processing approach adapts to evolving design requirements while preserving architectural integrity.
 
 [Go to repository](https://github.com/siconge/Tencent-HQ-BIM-Data-Pipeline-with-AWS)
 
 <h2>Table of Contents</h2>
 
-- [Overview](#overview)
-- [Benefits](#benefits)
+- [Pipeline Workflow](#pipeline-workflow)
 - [Architecture](#architecture)
+- [Technologies Used](#technologies-used)
 - [Prerequisites](#prerequisites)
+- [System Setup](#system-setup)
 - [Project Context and Data Source](#project-context-and-data-source)
 
 [Back to top](#tencent-headquarters-bim-data-pipeline-using-revit-apache-airflow-and-aws-services)
 
-## Overview
-The pipeline is designed to:
-1. **Data ETL**: Employ Apache Airflow to orchestrate ETL processes.
-   - Extract data from Autodesk Revit model using the APS (Autodesk Platform Services) API.
-   - Pre-process the data using Pandas.
-   - Load the pre-processed raw data into an Amazon S3 bucket.
-2. **Cloud Storage and Processing**: Leverage AWS services for advanced data handling.
-   - Implement an AWS Glue job in script mode utilizing PySpark to further refine the raw data and store the transformed data into a designated S3 bucket.
-   - Deploy an AWS Glue Crawler to catalog the transformed data.
-   - Perform interactive queries on the cataloged data using Amazon Athena, saving query results in a specified S3 bucket.
-   - Load the cataloged data into Amazon Redshift for advanced analytics and reporting.
-
-[Back to top](#tencent-headquarters-bim-data-pipeline-using-revit-apache-airflow-and-aws-services)
-
-## Benefits
-- **Enhanced Design Decision-Making**: Real-time data updates for design iterations.
-- **Improved Construction Modifications**: Accurate and timely data for detail adjustments.
-- **Cost Estimation**: Reliable data for precise cost analysis.
-- **Regulatory Compliance**: Ensuring adherence to energy consumption, window-to-wall ratio, and fire protection requirements.
+### Pipeline Workflow
+1. **Infrastructure Deployment**:
+   - Define and provision AWS resources using AWS CloudFormation templates to ensure a scalable foundation for the pipeline.
+2. **Data Extraction**:
+   - Extract BIM data through APS API, targeting metadata such as curtain wall attributes.
+3. **Data Transformation**:
+   - Engineer features (e.g., operable area, embodied carbon, and facade costs) using Python libraries like Pandas and NumPy.
+4. **Data Validation and Loading**:
+   - Validate and save transformed data locally as CSV files before uploading to Amazon S3.
+5. **ETL in AWS Glue**:
+   - Apply additional transformations in Glue, including timestamp-based partitioning and schema validation for efficient querying.
+6. **Amazon Redshift Spectrum Integration**:
+   - Query S3-stored data using Redshift Spectrum via Glue Data Catalog. This approach aligns with AWS's data lake architecture, enabling analytics and insights without duplicating data storage.
 
 [Back to top](#tencent-headquarters-bim-data-pipeline-using-revit-apache-airflow-and-aws-services)
 
 ## Architecture
 ![revit_pipeline_architecture.png](assets/revit_pipeline_architecture.png)
-1. **Autodesk Revit Model in BIM 360**: Data source from a BIM project in the cloud-based construction management platform.
-2. **Model Derivative API**: APS (Autodesk Platform Services) API for extracting 3D model metadata.
-3. **Apache Airflow**: ETL process orchestration and task distribution management.
-4. **Amazon S3**: Scalable storage for raw data, transformed data, and query results.
-5. **AWS Glue**: ETL jobs and data cataloging.
-6. **Amazon Athena**: Interactive queries of SQL-based data.
-7. **Amazon Redshift**: Data warehousing and analytics.
+1. **Autodesk Revit Model in BIM 360**: Data source hosted on a cloud-based construction management platform.
+2. **APS Model Derivative API**: Extracts metadata from 3D models in Revit.
+3. **Apache Airflow**: Orchestrates ETL processes and manages task dependencies.
+4. **AWS CloudFormation**: Automates provisioning of AWS resources for the pipeline.
+5. **Amazon S3**: Provides scalable storage for raw data, partitioned data, and PySpark-based Glue job scripts.
+6. **AWS Glue**: Facilitates ETL jobs, data schema crawling, and metadata table cataloging.
+7. **Amazon Redshift**: Acts as the data warehouse for analytics, interactive queries, and built-in visualization.
+
+[Back to top](#tencent-headquarters-bim-data-pipeline-using-revit-apache-airflow-and-aws-services)
+
+## Technologies Used
+- **Programming Languages**: Python (Pandas, NumPy, PySpark, Requests)
+- **ETL Orchestration**: Apache Airflow
+- **Cloud Services**: AWS CloudFormation, AWS Secrets Manager, Amazon S3, AWS Glue, Amazon Redshift
+- **APIs**: APS (Data Management API, Model Derivative API), AWS SDK for Python (Boto3)
 
 [Back to top](#tencent-headquarters-bim-data-pipeline-using-revit-apache-airflow-and-aws-services)
 
 ## Prerequisites
-- Revit model managed in BIM 360.
-- APS credentials.
-- AWS account with appropriate permissions for S3, Glue, Athena, and Redshift.
-- Docker installation.
-- Python 3.9 or higher.
+- **Revit Model**: A Revit model hosted and managed in BIM 360.
+- **APS API Credentials**: Obtain required credentials (client ID and secret) for API access.
+- **AWS Account**: Ensure sufficient permissions for S3, Glue, and Redshift services.
+- **Docker Installation**: Install Docker to run Airflow in a containerized environment.
+- **Python Version**: Use Python 3.9 or higher for running the scripts and configurations.
+
+[Back to top](#tencent-headquarters-bim-data-pipeline-using-revit-apache-airflow-and-aws-services)
+
+## System Setup
+1. Clone the repository.
+2. Register your app in the Autodesk Developer Portal to obtain APS client credentials:
+    - Create an app and note the client ID and secret.
+    - Ensure your Revit model is accessible in BIM 360.
+3. Configure AWS environment:
+    - Create an IAM user with `AdministratorAccess` policy.
+    - Store APS client credentials and AWS access keys securely in AWS Secrets Manager.
+    - Update `conf/config.conf` with the following values:
+        - Names of secrets for APS client credentials and AWS access keys.
+        - Project ID, Item ID, and Model View name of your model in BIM 360.
+        - S3 bucket name matching the `aws-resource-stack-deploy.yaml` template.
+        - Glue job name customized to your specific requirements.
+4. Deploy AWS Resources Using CloudFormation:
+    - Locate the `aws-resource-stack-deploy.yaml` template in the root directory.
+    - Open the template and update the `Parameters` section with custom values tailored to your project.
+    - Create the stack using Amazon CloudFormation to provision AWS resources, including configurations of the following:
+        - S3Bucket
+        - S3BucketPolicy
+        - GlueDatabase
+        - GlueJob
+        - GlueServiceRole
+        - RedshiftServerlessNamespace
+        - RedshiftServerlessWorkgroup
+        - RedshiftServiceRole
+5. Set up Docker for Apache Airflow:
+    - Locate the `docker-compose.yaml` template in the root directory.
+    - Verify that the following structure aligns with the Airflow scripts and resources mapped to the container's file system:
+        ```
+        └── root
+            ├── aws_glue_job_script
+            │   └── partition_job.py
+            ├── config
+            │   └── config.conf
+            ├── dags
+            │   └── bim_aws_dag.py
+            ├── data
+            │   └── output
+            ├── etls
+            │   ├── aws_etl.py
+            │   ├── bim_etl.py
+            │   └── __init__.py
+            ├── pipelines
+            │   ├── aws_pipeline.py
+            │   ├── bim_pipeline.py
+            │   └── __init__.py
+            ├── utils
+            │   ├── constants.py
+            │   └── __init__.py
+            ├── docker-compose.yaml
+            └── requirements.txt
+        ```
+    - The following auxiliary files and folders are included in the repository for additional context but are not mapped to the container's file system:
+        - `README.md` (documentation)
+        - `assets` (images used in `README.md`)
+        - `data/output/prefix_yyyyMMdd_suffix.csv` (example CSV output for reference)
+        - `aws-resource-stack-deploy.yaml` (CloudFormation template for optional AWS setup)
+
+6. Install the dependencies.
+    ```bash
+    pip install -r requirements.txt
+    ```
+7. Start Docker container for Apache Airflow.
+    ```bash
+    docker-compose up
+    ```
+8. Launch the Airflow web UI.
+    ```bash
+    open http://localhost:8080
+    ```
+9. Deploy the Airflow DAG and start the pipeline.
+    ```bash
+    airflow dags trigger bim_aws_dag
+    ```
+    or manually trigger the DAG from the Airflow web UI.
+10. After this pipeline is implemented, the S3 bucket should have the follow structure:
+    ```
+    └── s3-bucket-name
+        ├── aws_glue_assets/
+        │   ├── scripts/
+        │   │   └── prefix_partition_job.py
+        │   └── temporary/
+        ├── partitioned/
+        │   ├── timestamp=yyyy-MM-ddTHH:mm:ss.SSSZ/
+        │   └── ...
+        └── raw/
+            ├── prefix_yyyyMMdd_suffix.csv
+            └── ...
+    ```
 
 [Back to top](#tencent-headquarters-bim-data-pipeline-using-revit-apache-airflow-and-aws-services)
 
