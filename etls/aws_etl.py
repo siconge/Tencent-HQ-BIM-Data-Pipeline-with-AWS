@@ -4,7 +4,7 @@ from botocore.exceptions import ClientError
 from time import sleep
 
 
-def get_access_keys(secret_name:str):
+def get_access_keys(secret_name:str) -> tuple:
     """
     Retrieves AWS access keys from AWS Secrets Manager.
     """
@@ -18,7 +18,7 @@ def get_access_keys(secret_name:str):
     return secret['AWS_ACCESS_KEY_ID'], secret['AWS_SECRET_ACCESS_KEY']
 
 
-def connect_to_s3(key_id:str, secret_key:str, region_name:str):
+def connect_to_s3(key_id:str, secret_key:str, region_name:str) -> None:
     try:
         s3 = boto3.client(
             's3',
@@ -31,7 +31,7 @@ def connect_to_s3(key_id:str, secret_key:str, region_name:str):
         print(f"Error connecting to S3: {e}")
 
 
-def create_bucket_if_not_exist(s3:boto3.client, bucket_name:str, region_name:str):
+def create_bucket_if_not_exist(s3:boto3.client, bucket_name:str, region_name:str) -> None:
     try:
         # Check if bucket exists
         response = s3.list_buckets()
@@ -54,7 +54,7 @@ def create_bucket_if_not_exist(s3:boto3.client, bucket_name:str, region_name:str
         print(f'Error checking or creating bucket "{bucket_name}": {e}')
 
 
-def create_folder_if_not_exist(s3:boto3.client, bucket_name:str, folder_name:str):
+def create_folder_if_not_exist(s3:boto3.client, bucket_name:str, folder_name:str) -> None:
     try:
         # Check if a folder already exists as long as a single object is fetched, which it is sufficient to check for the existence of a folder
         response = s3.list_objects_v2(Bucket=bucket_name, Prefix=f'{folder_name}/', MaxKeys=1)
@@ -69,7 +69,7 @@ def create_folder_if_not_exist(s3:boto3.client, bucket_name:str, folder_name:str
         print(f'Error creating folder "{folder_name}/": {e}')
 
 
-def upload_file_to_s3(s3:boto3.client, local_file_path:str, bucket_name:str, file_key:str):
+def upload_file_to_s3(s3:boto3.client, local_file_path:str, bucket_name:str, file_key:str) -> None:
     try:
         s3.upload_file(Filename=local_file_path, Bucket=bucket_name, Key=file_key)
         print(f"File uploaded to s3://{bucket_name}/{file_key}")
@@ -81,7 +81,7 @@ def upload_file_to_s3(s3:boto3.client, local_file_path:str, bucket_name:str, fil
         print(f"Error uploading file: {e}")
 
 
-def trigger_glue_job(s3:boto3.client, bucket_name:str, folder_name:str, file_name:str, glue_job_name:str):
+def trigger_glue_job(s3:boto3.client, bucket_name:str, folder_name:str, file_name:str, glue_job_name:str) -> tuple:
     """
     Triggers an AWS Glue job if valid CSV files exist in the specified folder.
     """
@@ -123,7 +123,7 @@ def trigger_glue_job(s3:boto3.client, bucket_name:str, folder_name:str, file_nam
         print(f"Unexpected error: {str(e)}")
 
  
-def monitor_glue_job_completion(glue:boto3.client, glue_job_name:str, run_id:str):
+def monitor_glue_job_completion(glue:boto3.client, glue_job_name:str, run_id:str) -> str:
     """
     Monitors the completion status of an AWS Glue job.
     """
