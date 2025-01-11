@@ -41,7 +41,7 @@ Tailored for design teams, technical consultants, and Tencent clients, the solut
 [Back to top](#tencent-headquarters-bim-data-pipeline-using-revit-apache-airflow-and-aws-services)
 
 ## Architecture
-![revit_pipeline_architecture.png](assets/revit_pipeline_architecture.png)
+![revit_pipeline_architecture.png](assets/bim_aws_pipeline_architecture.png)
 1. **Autodesk Revit Model in BIM 360**: Data source hosted on a cloud-based construction management platform.
 2. **APS Model Derivative API**: Extracts metadata from 3D models in Revit.
 3. **Apache Airflow**: Orchestrates ETL processes and manages task dependencies.
