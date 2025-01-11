@@ -9,7 +9,7 @@ from datetime import datetime
 from utils.constants import APS_API_BASE_URL
 
 
-def get_client_credentials(secret_name:str):
+def get_client_credentials(secret_name:str) -> tuple:
     """
     Retrieves APS client credentials from AWS Secrets Manager.
     """
