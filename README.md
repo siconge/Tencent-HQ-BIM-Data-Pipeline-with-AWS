@@ -3,13 +3,13 @@
     <!-- style="color: #333333; font-family: Arial, sans-serif; text-decoration: none;" -->
 </div>
 
-# Tencent Headquarters BIM Data Pipeline Using Revit, Apache Airflow, and AWS Services
+# Tencent Headquarters BIM Data Pipeline Using Apache Airflow, AWS Services, and Autodesk Platform Services
 
 This project delivers an end-to-end data pipeline solution designed to process BIM (Building Information Modeling) data from the Revit model of Tencent Global Headquarters in Shenzhen. Developed during the design and construction phases, the pipeline efficiently handles unitized curtain wall metadata to support data-driven decision-making.
 
-Integrating upstream metadata extraction from Autodesk BIM 360 and downstream cloud-based transformations and analytics using AWS services, the pipeline leverages Apache Airflow, AWS CloudFormation, Amazon S3, AWS Glue, and Amazon Redshift. It enables automated, scalable workflows for data extraction, transformation, and storage.
+Integrating upstream metadata extraction and pre-processing from Autodesk BIM 360 and downstream cloud-based storage, partitioning, schema cataloging, and analytics using AWS services, the pipeline leverages Apache Airflow, Autodesk Platform Services APIs, AWS CloudFormation, Amazon S3, AWS Glue, and Amazon Redshift. It enables automated, scalable workflows for data extraction, transformation, and storage.
 
-Tailored for design teams, technical consultants, and Tencent clients, the solution supports precise construction detail modifications, cost estimation, and regulatory compliance with standards for energy consumption and fire protection. Its modular and iterative BIM data processing approach adapts to evolving design requirements while preserving architectural integrity.
+Tailored for design teams, technical consultants, and Tencent clients, the solution supports precise construction detail modifications, cost optimization, and regulatory compliance with standards for energy consumption and fire protection. Its modular and iterative BIM data processing approach adapts to evolving design requirements while preserving architectural integrity.
 
 [Go to repository](https://github.com/siconge/Tencent-HQ-BIM-Data-Pipeline-with-AWS)
 
