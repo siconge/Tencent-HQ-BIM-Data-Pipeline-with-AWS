@@ -7,7 +7,7 @@
 
 This project delivers an end-to-end data pipeline solution designed to process BIM (Building Information Modeling) data from the Revit model of Tencent Global Headquarters in Shenzhen. Developed during the design and construction phases, the pipeline efficiently handles unitized curtain wall metadata to support data-driven decision-making.
 
-Integrating upstream metadata extraction and pre-processing from Autodesk BIM 360 and downstream cloud-based storage, partitioning, schema cataloging, and analytics using AWS services, the pipeline leverages Apache Airflow, Autodesk Platform Services APIs, AWS CloudFormation, Amazon S3, AWS Glue, and Amazon Redshift. It enables automated, scalable workflows for data extraction, transformation, and storage.
+Integrating upstream metadata extraction and pre-processing from Autodesk BIM 360 and downstream cloud-based storage, partitioning, schema cataloging, and analytics using AWS services, the pipeline leverages Apache Airflow, Autodesk Platform Services (APS) APIs, AWS CloudFormation, Amazon S3, AWS Glue, and Amazon Redshift. It enables automated, scalable workflows for data extraction, transformation, and storage.
 
 Tailored for design teams, technical consultants, and Tencent clients, the solution supports precise construction detail modifications, cost optimization, and regulatory compliance with standards for energy consumption and fire protection. Its modular and iterative BIM data processing approach adapts to evolving design requirements while preserving architectural integrity.
 
@@ -43,12 +43,13 @@ Tailored for design teams, technical consultants, and Tencent clients, the solut
 ## Architecture
 ![revit_pipeline_architecture.png](assets/bim_aws_pipeline_architecture.png)
 1. **Autodesk Revit Model in BIM 360**: Data source hosted on a cloud-based construction management platform.
-2. **APS Model Derivative API**: Extracts metadata from 3D models in Revit.
-3. **Apache Airflow**: Orchestrates ETL processes and manages task dependencies.
-4. **AWS CloudFormation**: Automates provisioning of AWS resources for the pipeline.
-5. **Amazon S3**: Provides scalable storage for raw data, partitioned data, and PySpark-based Glue job scripts.
-6. **AWS Glue**: Facilitates ETL jobs, data schema crawling, and metadata table cataloging.
-7. **Amazon Redshift**: Acts as the data warehouse for analytics, interactive queries, and built-in visualization.
+2. **APS Data Management API**: Manages authentication and retrieves access to Revit files stored in BIM 360.
+3. **APS Model Derivative API**: Extracts metadata from 3D models in Revit for downstream processing.
+4. **Apache Airflow**: Orchestrates ETL processes and manages task dependencies.
+5. **AWS CloudFormation**: Automates provisioning of AWS resources for the pipeline.
+6. **Amazon S3**: Provides scalable storage for raw data, partitioned data, and PySpark-based Glue job scripts.
+7. **AWS Glue**: Facilitates ETL jobs, data schema crawling, and metadata table cataloging.
+8. **Amazon Redshift**: Acts as the data warehouse for analytics, interactive queries, and built-in visualization.
 
 [Back to top](#tencent-headquarters-bim-data-pipeline-using-revit-apache-airflow-and-aws-services)
 
