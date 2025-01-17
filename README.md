@@ -127,6 +127,7 @@ Tailored for design teams, technical consultants, and Tencent clients, the solut
         - `assets` (images used in `README.md`)
         - `data/output/prefix_yyyyMMdd_suffix.csv` (example CSV output for reference)
         - `aws-resource-stack-deploy.yaml` (CloudFormation template for optional AWS setup)
+        - `amazon_redshift_queries/latest_partition_view.ipynb` (example Redshift query notebook demonstrating late-binding views for partitioned BIM data)
 
 6. Install the dependencies.
     ```bash
