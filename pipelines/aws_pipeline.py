@@ -18,8 +18,8 @@ def aws_pipeline(ti:TaskInstance):
     # Step 3: Upload input file and Glue job script to S3
     file_path = ti.xcom_pull(task_ids='bim_pipeline')
     file_name = file_path.split('/')[-1]
-    upload_file_to_s3(s3, file_path, S3_BUCKET_NAME, f'{DATA_SOURCE_FOLDER_NAME}/{file_name}')
-    upload_file_to_s3(s3, GLUE_JOB_SCRIPT_LOCAL_PATH, S3_BUCKET_NAME, f'{GLUE_JOB_SCRIPT_S3_FOLDER}/{GLUE_JOB_SCRIPT_LOCAL_PATH.split('/')[-1]}')
+    upload_file_to_s3(s3, file_path, S3_BUCKET_NAME, DATA_SOURCE_FOLDER_NAME)
+    upload_file_to_s3(s3, GLUE_JOB_SCRIPT_LOCAL_PATH, S3_BUCKET_NAME, GLUE_JOB_SCRIPT_S3_FOLDER)
     
     # Step 4: Trigger Glue job and monitor its completion status
     glue, run_id = trigger_glue_job(s3, S3_BUCKET_NAME, DATA_SOURCE_FOLDER_NAME, file_name, GLUE_JOB_NAME)
