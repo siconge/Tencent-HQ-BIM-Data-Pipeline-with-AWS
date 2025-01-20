@@ -9,7 +9,7 @@ except Exception as e:
     raise RuntimeError(f'Error reading configuration file: {e}')
 
 APS_API_BASE_URL = parser.get('bim', 'aps_api_base_url')
-APS_CLIENT_CREDENTIALS_SECRET_NAME = parser.get('aps', 'aps_client_credentials_secret_name')
+APS_CLIENT_CREDENTIALS_SECRET_NAME = parser.get('bim', 'aps_client_credentials_secret_name')
 BIM_360_PROJECT_ID = parser.get('bim', 'bim_360_project_id')
 BIM_360_ITEM_ID = parser.get('bim', 'bim_360_item_id')
 MODEL_VIEW_NAME = parser.get('bim', 'model_view_name')
