@@ -40,7 +40,7 @@ dag = DAG(
     dag_id='bim_aws_dag',
     default_args=default_args,
     schedule_interval='@daily',
-    catchup=0,
+    catchup=False,
     tags=['bim', 'aws', 'etl', 'pipeline']
 )
 
