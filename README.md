@@ -63,7 +63,7 @@ Tailored for design teams, technical consultants, and Tencent clients, the solut
 
 ## Prerequisites
 - **Revit Model**: A Revit model hosted and managed in BIM 360.
-- **APS API Credentials**: Obtain required credentials (client ID and secret) for API access.
+- **APS API Credentials**: Obtain required credentials (client ID and client secret) for API access.
 - **AWS Account**: Ensure sufficient permissions for S3, Glue, and Redshift services.
 - **Docker Installation**: Install Docker to run Airflow in a containerized environment.
 - **Python Version**: Use Python 3.9 or higher for running the scripts and configurations.
@@ -73,7 +73,7 @@ Tailored for design teams, technical consultants, and Tencent clients, the solut
 ## System Setup
 1. Clone the repository.
 2. Register your app in the Autodesk Developer Portal to obtain APS client credentials:
-    - Create an app and note the client ID and secret.
+    - Create an app and note the client ID and client secret.
     - Ensure your Revit model is accessible in BIM 360.
 3. Configure AWS environment:
     - Create an IAM user with `AdministratorAccess` policy.
