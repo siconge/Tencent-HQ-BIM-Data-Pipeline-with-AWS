@@ -9,21 +9,22 @@ from datetime import datetime
 from utils.constants import APS_API_BASE_URL
 
 
-def get_client_credentials(secret_name:str) -> tuple:
+def get_client_credentials(secret_name: str) -> tuple[str, str]:
     """
     Retrieves APS client credentials from AWS Secrets Manager.
     """
     client = boto3.client('secretsmanager')
     try:
         response = client.get_secret_value(SecretId=secret_name)
+        secret = json.loads(response['SecretString'])
+        return secret['APS_CLIENT_ID'], secret['APS_CLIENT_SECRET']
+    except json.JSONDecodeError as e:
+        raise ValueError(f"Invalid JSON format in secret '{secret_name}': {e}")
     except ClientError as e:
-        print(f"Error retrieving secret: {e}")
-        return None, None
-    secret = json.loads(response['SecretString'])
-    return secret['AWS_ACCESS_KEY_ID'], secret['AWS_SECRET_ACCESS_KEY']
+        raise RuntimeError(f"Error retrieving secret '{secret_name}': {e}")
 
 
-def authenticate(client_id:str, client_secret:str) -> str:
+def authenticate(client_id: str, client_secret: str) -> str:
     """
     Authenticates with Autodesk Platform Services (APS) API to obtain an access token.
     """
@@ -39,7 +40,7 @@ def authenticate(client_id:str, client_secret:str) -> str:
     return response.json().get('access_token')
 
 
-def get_file_urn(token:str, project_id:str, item_id:str) -> str:
+def get_file_urn(token: str, project_id: str, item_id: str) -> str:
     """
     Retrieves the URN of a Revit file in a BIM 360 project using its item ID.
     """
@@ -58,7 +59,7 @@ def get_file_urn(token:str, project_id:str, item_id:str) -> str:
     return urn
 
 
-def get_model_guid(token:str, urn:str, model_view_name:str) -> str:
+def get_model_guid(token: str, urn: str, model_view_name: str) -> str:
     """
     Retrieves the modelGuid of a specific view in the Revit file.
     """
@@ -74,7 +75,7 @@ def get_model_guid(token:str, urn:str, model_view_name:str) -> str:
     return model_guid
 
 
-def extract_param_data(token:str, urn:str, model_guid:str) -> pd.DataFrame:
+def extract_param_data(token: str, urn: str, model_guid: str) -> pd.DataFrame:
     """
     Extracts object metadata (properties) from a Revit file, transforms and stores specified parameters.
     """
@@ -105,7 +106,7 @@ def extract_param_data(token:str, urn:str, model_guid:str) -> pd.DataFrame:
     return unit_df
 
 
-def transform_data(df:pd.DataFrame) -> pd.DataFrame:
+def transform_data(df: pd.DataFrame) -> pd.DataFrame:
     """
     Performs transformations on extracted BIM data, adds calculated columns, validates schema, and handles missing/unexpected fields.
     """
@@ -155,7 +156,7 @@ def transform_data(df:pd.DataFrame) -> pd.DataFrame:
     return df
 
 
-def generate_file_path(folder_path, prefix, date_format='%Y%m%d', extension='csv') -> str:
+def generate_file_path(folder_path: str, prefix: str, date_format: str = '%Y%m%d', extension: str = 'csv') -> str:
     """
     Generates a file path following the file naming protocol.
     """
@@ -173,7 +174,7 @@ def generate_file_path(folder_path, prefix, date_format='%Y%m%d', extension='csv
     return file_path
 
 
-def load_data_to_csv(data:pd.DataFrame, file_path:str) -> None:
+def load_data_to_csv(data: pd.DataFrame, file_path: str) -> None:
     """
     Writes transformed data to CSV.
     """
