@@ -28,9 +28,6 @@
 # The << operator imports the contents of a section by mapping its alias.
 # Place anchor (&) on a section for other services to inherit its settings.
 # Use alias (*) to call the anchored section to inherit its settings.
-# The -c flag in "bash -c" tells Bash to execute the following string as a command.
-# The -y flag in "apt-get install -y" automatically answers "yes" to all prompts during installation.
-# The bash "airflow webserver" is equivalent to the yaml "command: webserver" to start the Airflow webserver when it initializes.
 ---
 x-airflow-common:
   &airflow-common
