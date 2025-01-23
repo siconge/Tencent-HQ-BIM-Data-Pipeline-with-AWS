@@ -46,24 +46,6 @@ def create_bucket_if_not_exist(session: boto3.Session, bucket_name: str, region_
         raise
 
 
-# def create_folder_if_not_exist(session: boto3.Session, bucket_name: str, folder_name: str) -> None:
-#     try:
-#         s3 = session.client('s3')
-
-#         # Check if a folder already exists as long as a single object is fetched (sufficient to check for the existence of a folder)
-#         response = s3.list_objects_v2(Bucket=bucket_name, Prefix=f'{folder_name}/', MaxKeys=1)
-#         if 'Contents' in response:
-#             print(f'Folder "{folder_name}/" already exists in bucket "{bucket_name}"')
-        
-#         # Add a zero-byte object to create the folder structure
-#         else:
-#             s3.put_object(Bucket=bucket_name, Key=f'{folder_name}/')
-#             print(f'Folder "{folder_name}/" created in bucket "{bucket_name}"')
-#     except ClientError as e:
-#         logging.exception(f'Error creating folder "{folder_name}/": {e}')
-#         raise
-
-
 def upload_file_to_s3(session: boto3.Session, local_file_path: str, bucket_name: str, file_key: str) -> None:
     try:
         s3 = session.client('s3')
