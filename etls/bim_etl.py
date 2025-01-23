@@ -1,27 +1,30 @@
 import os
 import json
 import requests
+import logging
 import numpy as np
 import pandas as pd
 import boto3
 from botocore.exceptions import ClientError
 from datetime import datetime
 from utils.constants import APS_API_BASE_URL
+    
 
-
-def get_client_credentials(secret_name: str) -> tuple[str, str]:
+def get_client_credentials(session: boto3.Session, secret_name: str) -> tuple[str, str]:
     """
     Retrieves APS client credentials from AWS Secrets Manager.
     """
-    client = boto3.client('secretsmanager')
     try:
+        client = session.client('secretsmanager')
         response = client.get_secret_value(SecretId=secret_name)
         secret = json.loads(response['SecretString'])
         return secret['APS_CLIENT_ID'], secret['APS_CLIENT_SECRET']
     except json.JSONDecodeError as e:
-        raise ValueError(f"Invalid JSON format in secret '{secret_name}': {e}")
+        logging.exception(f"Invalid JSON format in secret '{secret_name}': {e}")
+        raise
     except ClientError as e:
-        raise RuntimeError(f"Error retrieving secret '{secret_name}': {e}")
+        logging.exception(f"Error retrieving secret '{secret_name}': {e}")
+        raise
 
 
 def authenticate(client_id: str, client_secret: str) -> str:
@@ -54,7 +57,8 @@ def get_file_urn(token: str, project_id: str, item_id: str) -> str:
     # Extract URN from the item data
     file_data = response.json().get('data')
     if not file_data:
-        raise ValueError(f'File with item_id "{item_id}" not found')
+        logging.exception(f'File with item_id "{item_id}" not found')
+        raise
     urn = file_data.get('id')
     return urn
 
@@ -71,7 +75,8 @@ def get_model_guid(token: str, urn: str, model_view_name: str) -> str:
     model_views = response.json()['data']['metadata']
     model_guid = next((view['guid'] for view in model_views if view['name'] == model_view_name), None)
     if not model_guid:
-        raise ValueError(f'Model view "{model_view_name}" not found.')
+        logging.exception(f'Model view "{model_view_name}" not found.')
+        raise
     return model_guid
 
 
@@ -102,7 +107,8 @@ def extract_param_data(token: str, urn: str, model_guid: str) -> pd.DataFrame:
     if unit_ls:
         unit_df = pd.DataFrame(unit_ls)
     else:
-        raise ValueError("No valid curtain wall panels found")
+        logging.exception("No valid curtain wall panels found")
+        raise
     return unit_df
 
 
@@ -130,7 +136,6 @@ def transform_data(df: pd.DataFrame) -> pd.DataFrame:
         'unit_cost_usd':2,
         'embodied_carbon_kgCO2e':2
     })
-
     df['ventilation_louver'] = df['ventilation_louver'].astype(bool)
     df['rescue_window'] = df['rescue_window'].astype(bool)
 
@@ -148,11 +153,11 @@ def transform_data(df: pd.DataFrame) -> pd.DataFrame:
     missing_cols = [col for col in required_cols if col not in df.columns]
     unexpected_cols = [col for col in df.columns if col not in required_cols]
     if missing_cols or unexpected_cols:
-        raise ValueError(
+        logging.exception(
             f"Warning: Missing columns detected: {missing_cols}"
             f"Warning: Unexpected columns detected: {unexpected_cols}"
         )
-
+        raise
     return df
 
 
@@ -184,4 +189,5 @@ def load_data_to_csv(data: pd.DataFrame, file_path: str) -> None:
     
     # Raise errors to propagate failures to Airflow
     except Exception as e:
-        raise RuntimeError(f"Error saving data to {file_path}: {e}")
+        logging.exception(f"Error saving data to {file_path}: {e}")
+        raise
