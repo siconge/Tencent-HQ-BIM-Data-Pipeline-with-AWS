@@ -1,13 +1,16 @@
+from etls.aws_etl import create_aws_session
 from etls.bim_etl import get_client_credentials, authenticate, get_file_urn, get_model_guid, extract_param_data, transform_data, generate_file_path, load_data_to_csv
-from utils.constants import APS_CLIENT_CREDENTIALS_SECRET_NAME, BIM_360_PROJECT_ID, BIM_360_ITEM_ID, MODEL_VIEW_NAME, OUTPUT_PATH, OUTPUT_FILENAME_PREFIX
+from mocks.mockup import test_pipeline
+from utils.constants import AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, AWS_REGION_NAME, APS_CLIENT_CREDENTIALS_SECRET_NAME, BIM_360_PROJECT_ID, BIM_360_ITEM_ID, MODEL_VIEW_NAME, OUTPUT_PATH, OUTPUT_FILENAME_PREFIX
 
 
-def bim_pipeline():
+def bim_pipeline() -> str:
     """
     Extracts, transforms, and loads BIM data from APS into a local CSV file for subsequent processing by the AWS pipeline.
     """
     # Step 1: Authenticate with APS and retrieve token
-    client_credentials = get_client_credentials(APS_CLIENT_CREDENTIALS_SECRET_NAME)
+    session = create_aws_session(AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, AWS_REGION_NAME)
+    client_credentials = get_client_credentials(session, APS_CLIENT_CREDENTIALS_SECRET_NAME)
     token = authenticate(*client_credentials)
 
     # Step 2: Retrieve URN of a specified Revit file and modelGuid of a specific view in the file
