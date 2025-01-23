@@ -1,26 +1,8 @@
-# Licensed to the Apache Software Foundation (ASF) under one
-# or more contributor license agreements.  See the NOTICE file
-# distributed with this work for additional information
-# regarding copyright ownership.  The ASF licenses this file
-# to you under the Apache License, Version 2.0 (the
-# "License"); you may not use this file except in compliance
-# with the License.  You may obtain a copy of the License at
-#
-#   http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing,
-# software distributed under the License is distributed on an
-# "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-# KIND, either express or implied.  See the License for the
-# specific language governing permissions and limitations
-# under the License.
-#
-
 # Basic Airflow cluster configuration for CeleryExecutor with Redis and PostgreSQL.
 #
 # WARNING: This configuration is for local development. Do not use it in a production deployment.
 #
-# This configuration supports basic configuration using environment variables or an .env file
+# This configuration supports basic configuration using environment variables or an .env file.
 # The following variables are supported:
 #
 # AIRFLOW_IMAGE_NAME           - Docker image name used to run Airflow.
@@ -30,7 +12,7 @@
 # AIRFLOW_GID                  - Group ID in Airflow containers
 #                                Default: 50000
 #
-# Those configurations are useful mostly in case of standalone testing/running Airflow in test/try-out mode
+# Those configurations are useful mostly in case of standalone testing/running Airflow in test/try-out mode.
 #
 # _AIRFLOW_WWW_USER_USERNAME   - Username for the administrator account (if requested).
 #                                Default: airflow
@@ -40,11 +22,19 @@
 #                                Default: ''
 #
 # Feel free to modify this file to suit your needs.
+#
+# The > operator (folded block scalar) that replaces newlines with spaces is used for commands.
+# The | operator (literal block scalar) that keeps newlines is used for code blocks or logs.
+# The << operator imports the contents of a section by mapping its alias.
+# Place anchor (&) on a section for other services to inherit its settings.
+# Use alias (*) to call the anchored section to inherit its settings.
+# The -c flag in "bash -c" tells Bash to execute the following string as a command.
+# The -y flag in "apt-get install -y" automatically answers "yes" to all prompts during installation.
+# The bash "airflow webserver" is equivalent to the yaml "command: webserver" to start the Airflow webserver when it initializes.
 ---
-version: '3'
 x-airflow-common:
   &airflow-common
-  image: ${AIRFLOW_IMAGE_NAME:-apache/airflow:2.8.1-python3.8}
+  image: ${AIRFLOW_IMAGE_NAME:-apache/airflow:2.8.1-python3.9}
   environment:
     &airflow-common-env
     AIRFLOW__CORE__EXECUTOR: CeleryExecutor
