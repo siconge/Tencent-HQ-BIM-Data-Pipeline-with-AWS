@@ -16,16 +16,19 @@ def failure_callback(context):
     """
     Sends an email notification upon task failure using Airflow's callback mechanism.
     """
+    task_instance = context.get('task_instance')
     subject = f"Airflow Task Failed: {context['task_instance_key_str']}"
     body = f"""
-    Task failed with the following details:
-    Task Instance: {context['task_instance']}
-    DAG: {context['dag']}
-    Task ID: {context['task_id']}
-    Exception: {context['exception']}
-    Log URL: {context['task_instance'].log_url}
+    <p>Task failed with the following details:</p>
+    <p>
+    DAG ID: {task_instance.dag_id}<br>
+    Task ID: {task_instance.task_id}<br>
+    Execution Date: {context.get('execution_date')}<br>
+    Exception: {context.get('exception')}<br>
+    Log URL: {task_instance.log_url}
+    </p>
     """
-    send_email(to="your-email@example.com", subject=subject, html_content=body)
+    send_email(to=os.getenv('AIRFLOW__SMTP__SMTP_USER'), subject=subject, html_content=body)
 
 
 default_args = {
