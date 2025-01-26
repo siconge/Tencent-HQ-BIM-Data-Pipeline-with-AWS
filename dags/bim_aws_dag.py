@@ -47,7 +47,6 @@ dag = DAG(
     tags=['bim', 'aws', 'etl', 'pipeline']
 )
 
-
 # Task for extracting and processing BIM data from Autodesk BIM 360
 task_bim_pipeline = PythonOperator(
     task_id='bim_pipeline',
