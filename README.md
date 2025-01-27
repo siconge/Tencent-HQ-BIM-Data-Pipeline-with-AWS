@@ -132,11 +132,11 @@ Tailored for design teams, technical consultants, and Tencent clients, the solut
         - `amazon_redshift_queries/latest_partition_view.ipynb` (example Redshift query notebook demonstrating late-binding views for partitioned BIM data)
 
 6. Configure Airflow environment:
-    - Update `airflow.env` with the following values:
-        - Host server address used by Airflow when sending out email notifications via SMTP, through value of `AIRFLOW__SMTP__SMTP_HOST`.
-        - Username to authenticate when connecting to SMTP server, through value of `AIRFLOW__SMTP__SMTP_USER`.
-        - Password to authenticate when connecting to SMTP server, through value of `AIRFLOW__SMTP__SMTP_PASSWORD`.
-        - Default "from" email address used when Airflow sends email notifications, through value of `AIRFLOW__SMTP__SMTP_MAIL_FROM`.
+    - Update `airflow.env` with the following values to configure Airflow email notifications:
+        - `AIRFLOW__SMTP__SMTP_HOST`: Host server address used by Airflow when sending out email notifications via SMTP.
+        - `AIRFLOW__SMTP__SMTP_USER`: Username to authenticate when connecting to SMTP server.
+        - `AIRFLOW__SMTP__SMTP_PASSWORD`: Password to authenticate when connecting to SMTP server.
+        - `AIRFLOW__SMTP__SMTP_MAIL_FROM`: Default "from" email address used when Airflow sends email notifications.
 7. Start Docker container for Apache Airflow.
     ```bash
     docker compose up
