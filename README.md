@@ -101,6 +101,7 @@ Tailored for design teams, technical consultants, and Tencent clients, the solut
     - Verify that the following structure aligns with the Airflow scripts and resources mapped to the container's file system:
         ```
         └── root
+            ├── airflow.env        
             ├── aws_glue_job_script
             │   └── partition_job.py
             ├── config
@@ -130,24 +131,27 @@ Tailored for design teams, technical consultants, and Tencent clients, the solut
         - `aws-resource-stack-deploy.yaml` (CloudFormation template for optional AWS setup)
         - `amazon_redshift_queries/latest_partition_view.ipynb` (example Redshift query notebook demonstrating late-binding views for partitioned BIM data)
 
-6. Install the dependencies.
-    ```bash
-    pip install -r requirements.txt
-    ```
+6. Configure Airflow environment:
+    - Update `airflow.env` with the following values:
+        - Host server address used by Airflow when sending out email notifications via SMTP, through value of `AIRFLOW__SMTP__SMTP_HOST`.
+        - Username to authenticate when connecting to SMTP server, through value of `AIRFLOW__SMTP__SMTP_USER`.
+        - Password to authenticate when connecting to SMTP server, through value of `AIRFLOW__SMTP__SMTP_PASSWORD`.
+        - Default "from" email address used when Airflow sends email notifications, through value of `AIRFLOW__SMTP__SMTP_MAIL_FROM`.
 7. Start Docker container for Apache Airflow.
     ```bash
-    docker-compose up
+    docker compose up
     ```
 8. Launch the Airflow web UI.
     ```bash
     open http://localhost:8080
     ```
-9. Deploy the Airflow DAG and start the pipeline.
-    ```bash
-    airflow dags trigger bim_aws_dag
-    ```
-    or manually trigger the DAG from the Airflow web UI.
-10. After this pipeline is implemented, the S3 bucket should have the follow structure:
+9. Deploy the Airflow DAG and start the pipeline:
+    - Run the following command to trigger the DAG:
+        ```bash
+        docker compose exec airflow-webserver airflow dags trigger bim_aws_dag
+        ```
+    - Alternatively, trigger the DAG manually from the Airflow web UI.
+10. After this pipeline is executed, the S3 bucket should have the following structure:
     ```
     └── s3-bucket-name
         ├── aws_glue_assets/
